@@ -89,7 +89,7 @@ POST identity/token method to generate an IAM access token by passing an API key
 @retry(Exception, delay=2, tries=5)
 def generate_tokens(refresh):
 
-	api_key = os.getenv('TONE_ANALYZER_API_KEY')
+	api_key = os.getenv('VCAP_SERVICES_TONE_ANALYZER_API_KEY')
 
 	params = None
 
@@ -106,7 +106,7 @@ def generate_tokens(refresh):
 	if api_key:
 		log.info("api key is there.")
 	else :
-		log.error("TONE_ANALYZER_API_KEY not set")
+		log.error("VCAP_SERVICES_TONE_ANALYZER_API_KEY not set")
 
 	if refresh:
 		headers = {
@@ -165,17 +165,24 @@ def generate_tokens(refresh):
 
 if __name__ == '__main__':
 
-    PORT = os.getenv('5000')
+    PORT = os.getenv('VCAP_APP_PORT', '5000')
 
-    api_url = os.getenv('TONE_ANALYZER_API')
+    vcap_services = os.getenv('VCAP_SERVICES')
+
+    api_url = os.getenv('VCAP_SERVICES_TONE_ANALYZER_SERVICE_API')
+
+    token_url = os.getenv('VCAP_SERVICES_TONE_ANALYZER_TOKEN_ADDRESS')
 
     if not api_url:
-        log.error("TONE_ANALYZER_API not set")
+        log.error("VCAP_SERVICES_TONE_ANALYZER_SERVICE_API not set")
+
+    if not token_url:
+        log.error("VCAP_SERVICES_TONE_ANALYZER_TOKEN_ADDRESS not set")
 
     # https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21&sentences=false
     tone_analyzer_ep = "" + api_url + "/v3/tone?version=2017-09-21&sentences=false"
 
-    identity_token_url = "https://iam.cloud.ibm.com/identity/token"
+    identity_token_url = "" + token_url
 
     access_token = ""
 

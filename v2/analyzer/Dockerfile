@@ -1,4 +1,4 @@
-FROM phusion/baseimage:latest-amd64
+FROM phusion/baseimage
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq && \
