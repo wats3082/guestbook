@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:latest-amd64
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq && \
@@ -6,7 +6,7 @@ RUN apt-get update -qq && \
     openssl python2.7 python-pip build-essential python-dev \
     fakeroot dpkg-dev libcurl4-openssl-dev librtmp-dev libssl-dev
 RUN pip install --upgrade pip setuptools
-RUN pip install requests Flask Flask-Cache 
+RUN pip install requests Flask Flask-Cache
 RUN pip install ndg-httpsclient
 
 RUN pip install pyopenssl
