@@ -1,4 +1,4 @@
-# OpenShift Guestbook
+# Guestbook on Red Hat OpenShift
 
 The guestbook shows how to build a simple multi-tier web application using Kubernetes and Docker. The application consists of a web front end, Redis master for storage, and replicated set of Redis slaves, all for which we will create Kubernetes deployments, pods, and services.
 
