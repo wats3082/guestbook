@@ -19,7 +19,9 @@ spec:
     spec:
       containers:
       - name: redis-slave
-        image: clouddragons/redis-slave:v1
+        image: redis:5.0.5
+        command: ["/bin/sh"]
+        args: ["-c","redis-server --slaveof redis-master 6379"]
         ports:
         - name: redis-server
           containerPort: 6379
