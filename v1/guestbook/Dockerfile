@@ -4,7 +4,7 @@ RUN go get github.com/gorilla/mux github.com/xyproto/simpleredis
 COPY main.go .
 RUN go build main.go
 
-FROM busybox:ubuntu-14.04
+FROM ubuntu:18.04
 
 COPY --from=builder /go//main /app/guestbook
 
