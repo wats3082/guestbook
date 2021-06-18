@@ -43,10 +43,10 @@ def analyze_tone(input_text):
         generate_tokens(is_refresh)
 
     if access_token:
-        log.info("access token is there.")
+	log.info("access token is there.")
     else:
-        log.debug("access_token not existing")
-    return None
+	log.debug("access_token not existing")
+	return None
 
     headers = {
          'Content-Type': 'text/plain',
@@ -89,78 +89,78 @@ POST identity/token method to generate an IAM access token by passing an API key
 @retry(Exception, delay=2, tries=5)
 def generate_tokens(refresh):
 
-    api_key = os.getenv('TONE_ANALYZER_API_KEY')
+	api_key = os.getenv('TONE_ANALYZER_API_KEY')
 
-    params = None
+	params = None
 
-    global is_refresh
+	global is_refresh
 
-    global access_token
+	global access_token
 
-    global refresh_token
+	global refresh_token
 
-    global expire_time
+	global expire_time
 
-    is_refresh = refresh
+	is_refresh = refresh
 
-    if api_key:
-        log.info("api key is there.")
-    else :
-        log.error("TONE_ANALYZER_API_KEY not set")
+	if api_key:
+		log.info("api key is there.")
+	else :
+		log.error("TONE_ANALYZER_API_KEY not set")
 
-    if refresh:
-        headers = {
-            'Authorization': 'Basic Yng6Yng=',
-        }
-        params = {
-            'grant_type': 'refresh_token',
-            'refresh_token': refresh_token,
-        }
+	if refresh:
+		headers = {
+			'Authorization': 'Basic Yng6Yng=',
+		}
+		params = {
+			'grant_type': 'refresh_token',
+			'refresh_token': refresh_token,
+		}
 
-    else:
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'application/json',
-        }
+	else:
+		headers = {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Accept': 'application/json',
+		}
 
-        params = {
-            'grant_type': 'urn:ibm:params:oauth:grant-type:apikey',
-            'apikey': api_key,
-        }
+		params = {
+			'grant_type': 'urn:ibm:params:oauth:grant-type:apikey',
+			'apikey': api_key,
+		}
 
-    params = urllib.urlencode(params)
+	params = urllib.urlencode(params)
 
-    log.debug("calling identity token method : %s ", params)
+	log.debug("calling identity token method : %s ", params)
 
-    r = requests.post(url=identity_token_url, headers=headers, params=params)
+	r = requests.post(url=identity_token_url, headers=headers, params=params)
 
-    log.info("Identity tokens response code is: %s ", r.status_code)
+	log.info("Identity tokens response code is: %s ", r.status_code)
 
-    if r.status_code == 200 :
+	if r.status_code == 200 :
 
-        access_token = r.json()['access_token']
+		access_token = r.json()['access_token']
 
-        refresh_token = r.json()['refresh_token']
+		refresh_token = r.json()['refresh_token']
 
-        token_expiration = r.json()['expiration']
+		token_expiration = r.json()['expiration']
 
 
-        if access_token:
-            log.info("Identity access token generated")
+		if access_token:
+			log.info("Identity access token generated")
 
-        if refresh_token:
-            log.info("Identity refresh token generated")
+		if refresh_token:
+			log.info("Identity refresh token generated")
 
-        log.info("Identity tokens expiration: %s ", token_expiration)
+		log.info("Identity tokens expiration: %s ", token_expiration)
 
-        expire_time = datetime.utcfromtimestamp(float(token_expiration))
-        log.info("Identity access token would expire at around: %s ", expire_time)
+		expire_time = datetime.utcfromtimestamp(float(token_expiration))
+		log.info("Identity access token would expire at around: %s ", expire_time)
 
-        log.info("current time : %s ", datetime.utcnow())
+		log.info("current time : %s ", datetime.utcnow())
 
-    else :
+	else :
 
-        log.error("json : %s ", r.json())
+		log.error("json : %s ", r.json())
 
 
 if __name__ == '__main__':
@@ -182,8 +182,8 @@ if __name__ == '__main__':
 try:
     generate_tokens(None)
 except Exception as err:
-    log.debug('SSL connection failed: %s', str(err))
+	log.debug('SSL connection failed: %s', str(err))
 
 finally :
-    log.info("Starting analyzer tone_analyzer_ep: %s ", tone_analyzer_ep)
-    app.run(host='0.0.0.0', port=int(PORT))
+	log.info("Starting analyzer tone_analyzer_ep: %s ", tone_analyzer_ep)
+	app.run(host='0.0.0.0', port=int(PORT))
