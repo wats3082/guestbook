@@ -46,7 +46,7 @@ def analyze_tone(input_text):
         log.info("access token is there.")
     else:
         log.debug("access_token not existing")
-        return None
+    return None
 
     headers = {
          'Content-Type': 'text/plain',
