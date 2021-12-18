@@ -1,4 +1,4 @@
-http://guestbook-sn-labs-russellalanw.labs-prod-openshift-san-a45631dc5778dc6371c67d206ba9ae5c-0000.us-east.containers.appdomain.cloud
+http://guestbook99-sn-labs-russellalanw.labs-prod-openshift-san-a45631dc5778dc6371c67d206ba9ae5c-0000.us-east.containers.appdomain.cloud
 
 # Guestbook on Red Hat OpenShift
 
